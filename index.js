@@ -21,6 +21,7 @@ function covidstats(fromWhere) {
             const countryData= JSON.stringify(data['location'])
             const casesData = JSON.stringify(data['total_cases'])
             const newCasesData = JSON.stringify(data['new_cases'])
+            return { countryData: countryData, casesData: casesData, newCasesData: newCasesData }
         })
     }
     else{
@@ -29,7 +30,9 @@ function covidstats(fromWhere) {
             const countryData= JSON.stringify(data['location'])
             const casesData = JSON.stringify(data['total_cases'])
             const newCasesData = JSON.stringify(data['new_cases'])
-    })
+            return { countryData: countryData, casesData: casesData, newCasesData: newCasesData }
+        })
+    }   
 }
 
 
@@ -51,56 +54,55 @@ discordBot.on('message', (msg) => {
                 
             }
             else {
-                covidstats(fromWhere)
+                covidstats(args[1])
                   const embed = new Discord.MessageEmbed()
-                    .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ dynamic: true }))
-                    .setTitle("Country ",countryData)
-                    .addField("Total Cases ",casesData)
-                    .addField("New Cases ",newCasesData)
+                    .setTitle("Country ",covidstats.countryData)
+                    .addField("Total Cases ",covidstats.casesData)
+                    .addField("New Cases ",covidstats.newCasesData)
                     msg.channel.send(embed)
                 }
         }
     })
-}
 
 
-//Telegram
-const { Telegraf } = require('telegraf')
-const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
-const telegramBot = new Telegraf(oneStopBotToken)
+// //Telegram
+// const { Telegraf } = require('telegraf')
+// const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
-telegramBot.start((ctx) => {
-    console.log(ctx.from)
-    ctx.reply('Hey there! I am OneStop!')
-})
+// const telegramBot = new Telegraf(oneStopBotToken)
 
-telegramBot.on('sticker', (ctx) => {
-    ctx.reply('👌🏻')
-})
+// telegramBot.start((ctx) => {
+//     console.log(ctx.from)
+//     ctx.reply('Hey there! I am OneStop!')
+// })
 
-telegramBot.command('devinfo', async (ctx) => {
-    if (ctx.from.id != 1622650771 && ctx.from.id != 1604074166) return ctx.reply('Sorry, you are not a developer of this bot.')
-    try {
-        await ctx.reply(`id: ${telegramBot.botInfo.id}`)
-        await ctx.reply(`first_name: ${telegramBot.botInfo.first_name}`)
-        await ctx.reply(`can_read_all_group_messages: ${telegramBot.botInfo.can_read_all_group_messages}`)
-        await ctx.reply(`can_join_groups: ${telegramBot.botInfo.can_join_groups}`)
-        await ctx.reply(`supports_inline_queries: ${telegramBot.botInfo.supports_inline_queries}`)
-        await ctx.reply(`username: ${telegramBot.botInfo.username}`)
-        await ctx.reply(`is_bot: ${telegramBot.botInfo.is_bot}`)
-    } catch (err) {
-        console.log(err)
-    }
-})
+// telegramBot.on('sticker', (ctx) => {
+//     ctx.reply('👌🏻')
+// })
 
-telegramBot.command('covid', (ctx) => {
-    covid19.getStats('SGP')
-        .then(stats => {
+// telegramBot.command('devinfo', async (ctx) => {
+//     if (ctx.from.id != 1622650771 && ctx.from.id != 1604074166) return ctx.reply('Sorry, you are not a developer of this bot.')
+//     try {
+//         await ctx.reply(`id: ${telegramBot.botInfo.id}`)
+//         await ctx.reply(`first_name: ${telegramBot.botInfo.first_name}`)
+//         await ctx.reply(`can_read_all_group_messages: ${telegramBot.botInfo.can_read_all_group_messages}`)
+//         await ctx.reply(`can_join_groups: ${telegramBot.botInfo.can_join_groups}`)
+//         await ctx.reply(`supports_inline_queries: ${telegramBot.botInfo.supports_inline_queries}`)
+//         await ctx.reply(`username: ${telegramBot.botInfo.username}`)
+//         await ctx.reply(`is_bot: ${telegramBot.botInfo.is_bot}`)
+//     } catch (err) {
+//         console.log(err)
+//     }
+// })
+
+// telegramBot.command('covid', (ctx) => {
+//     covid19.getStats('SGP')
+//         .then(stats => {
             
-        })
-})
+//         })
+// })
 
-telegramBot.launch()
+// telegramBot.launch()
 
 discordBot.login(process.env.TOKEN)
