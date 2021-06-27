@@ -17,22 +17,17 @@ function covidstats(fromWhere) {
         getCountryISO3(fromWhere)
         fromWhere = getCountryISO3(fromWhere)
         covid19.getLatestStats(fromWhere).then((data) => {
-            console.log(data)
-            const countryData= JSON.stringify(data['location'])
-            const casesData = JSON.stringify(data['total_cases'])
-            const newCasesData = JSON.stringify(data['new_cases'])
+            const covidDataExport = { 'location':data['location'], 'cases':data['total_cases'], 'newCases':data['new_cases'] }
+            return covidDataExport
         })
     }
     else{
         covid19.getLatestStats(fromWhere).then((data) => {
-            console.log(data)
-            const countryData= JSON.stringify(data['location'])
-            const casesData = JSON.stringify(data['total_cases'])
-            const newCasesData = JSON.stringify(data['new_cases'])
+            const covidDataExport = { 'location':data['location'], 'cases':data['total_cases'], 'newCases':data['new_cases'] }
+            return covidDataExport
         })
     }
-};
-
+}
 
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
@@ -46,15 +41,14 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
-            console.log(args[1])
-            console.log(covidstats('SGP'))
+            data = covidstats(args[1])
+            console.log(data)
             if (args[1] === '') {
                 msg.channel.send('Invalid response');
             }
             else {
-                covidstats(args[1])
                   const embed = new Discord.MessageEmbed()
-                    .setTitle("Country ",)
+                    .setTitle("Country ",data['location'])
                     .addField("Total Cases ")
                     .addField("New Cases ")
                     msg.channel.send(embed)
@@ -97,7 +91,7 @@ discordBot.on('message', (msg) => {
 // telegramBot.command('covid', (ctx) => {
 //     covid19.getStats('SGP')
 //         .then(stats => {
-            
+
 //         })
 // })
 
