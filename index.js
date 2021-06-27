@@ -83,7 +83,7 @@ discordBot.on('message', (msg) => {
     }
 })
 
-Telegram
+//Telegram
 const { Telegraf } = require('telegraf')
 const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
@@ -114,10 +114,10 @@ telegramBot.command('devinfo', async (ctx) => {
 })
 
 telegramBot.command('covid', (ctx) => {
-    covid19.getStats('SGP')
-        .then(stats => {
-
-        })
+    covid19.getLatestStats('SGP')
+    .then(data => {
+        console.log(data)
+    })
 })
 
 telegramBot.launch()
