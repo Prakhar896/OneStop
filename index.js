@@ -17,28 +17,21 @@ function covidstats(fromWhere) {
         getCountryISO3(fromWhere)
         fromWhere = getCountryISO3(fromWhere)
         covid19.getLatestStats(fromWhere).then((data) => {
-            //console.log(data)
+            console.log(data)
             const countryData= JSON.stringify(data['location'])
             const casesData = JSON.stringify(data['total_cases'])
             const newCasesData = JSON.stringify(data['new_cases'])
-            const allCovidData = {countryData: countryData, casesData:casesData, newCasesData:newCasesData}
-            return allCovidData;
         })
     }
     else{
         covid19.getLatestStats(fromWhere).then((data) => {
-            //console.log(data)
+            console.log(data)
             const countryData= JSON.stringify(data['location'])
-            console.log(countryData)
             const casesData = JSON.stringify(data['total_cases'])
-            console.log(casesData)
             const newCasesData = JSON.stringify(data['new_cases'])
-            console.log(newCasesData)
-            const allCovidData = {countryData: countryData, casesData:casesData, newCasesData:newCasesData}
-            return allCovidData;
         })
     }
-}
+};
 
 
 discordBot.on('ready', () => {
@@ -53,9 +46,8 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
-            const data = covidstats(args[1])
-            console.log(data.countryData)
-
+            console.log(args[1])
+            console.log(covidstats('SGP'))
             if (args[1] === '') {
                 msg.channel.send('Invalid response');
             }
@@ -63,8 +55,8 @@ discordBot.on('message', (msg) => {
                 covidstats(args[1])
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Country ",)
-                    .addField("Total Cases ",covidstats.casesData)
-                    .addField("New Cases ",covidstats.newCasesData)
+                    .addField("Total Cases ")
+                    .addField("New Cases ")
                     msg.channel.send(embed)
                 }
         }
