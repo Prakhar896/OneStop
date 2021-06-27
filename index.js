@@ -21,18 +21,23 @@ function covidstats(fromWhere) {
             const countryData= JSON.stringify(data['location'])
             const casesData = JSON.stringify(data['total_cases'])
             const newCasesData = JSON.stringify(data['new_cases'])
-            return { countryData: countryData, casesData: casesData, newCasesData: newCasesData }
+            const allCovidData = {countryData: countryData, casesData:casesData, newCasesData:newCasesData}
+            return allCovidData;
         })
     }
     else{
         covid19.getLatestStats(fromWhere).then((data) => {
             //console.log(data)
             const countryData= JSON.stringify(data['location'])
+            console.log(countryData)
             const casesData = JSON.stringify(data['total_cases'])
+            console.log(casesData)
             const newCasesData = JSON.stringify(data['new_cases'])
-            return { countryData: countryData, casesData: casesData, newCasesData: newCasesData }
+            console.log(newCasesData)
+            const allCovidData = {countryData: countryData, casesData:casesData, newCasesData:newCasesData}
+            return allCovidData;
         })
-    }   
+    }
 }
 
 
@@ -48,15 +53,16 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
+            const data = covidstats(args[1])
+            console.log(data.countryData)
+
             if (args[1] === '') {
-                
                 msg.channel.send('Invalid response');
-                
             }
             else {
                 covidstats(args[1])
                   const embed = new Discord.MessageEmbed()
-                    .setTitle("Country ",covidstats.countryData)
+                    .setTitle("Country ",)
                     .addField("Total Cases ",covidstats.casesData)
                     .addField("New Cases ",covidstats.newCasesData)
                     msg.channel.send(embed)
