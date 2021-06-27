@@ -5,6 +5,34 @@ const discordBot = new Discord.Client();
 const covid19 = require('owid-covid')
 const PREFIX = 'o!'
 
+
+// ISO2 to ISO3 conversion
+const getCountryISO3 = require("country-iso-2-to-3");
+// getCountryISO3("iso2 country code")
+
+
+//Covid19 Cases Function
+function covidstats(fromWhere) {
+    if (fromWhere.length === 2) {
+        getCountryISO3(fromWhere)
+        fromWhere = getCountryISO3(fromWhere)
+        covid19.getLatestStats(fromWhere).then((data) => {
+            //console.log(data)
+            const countryData= JSON.stringify(data['location'])
+            const casesData = JSON.stringify(data['total_cases'])
+            const newCasesData = JSON.stringify(data['new_cases'])
+        })
+    }
+    else{
+        covid19.getLatestStats(fromWhere).then((data) => {
+            //console.log(data)
+            const countryData= JSON.stringify(data['location'])
+            const casesData = JSON.stringify(data['total_cases'])
+            const newCasesData = JSON.stringify(data['new_cases'])
+    })
+}
+
+
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
 })
@@ -16,10 +44,25 @@ discordBot.on('message', (msg) => {
         case 'info':
             msg.reply('Hey there! I am OneStop!')
             break;
-    }
-})
+        case 'covid':
+            if (args[1] === '') {
+                
+                msg.channel.send('Invalid response');
+                
+            }
+            else {
+                covidstats(fromWhere)
+                  const embed = new Discord.MessageEmbed()
+                    .setAuthor(msg.author.tag, msg.author.displayAvatarURL({ dynamic: true }))
+                    .setTitle("Country ",countryData)
+                    .addField("Total Cases ",casesData)
+                    .addField("New Cases ",newCasesData)
+                    msg.channel.send(embed)
+                }
+        }
+    })
+}
 
-discordBot.login(process.env.DISCORD_BOT_TOKEN)
 
 //Telegram
 const { Telegraf } = require('telegraf')
@@ -59,3 +102,5 @@ telegramBot.command('covid', (ctx) => {
 })
 
 telegramBot.launch()
+
+discordBot.login(process.env.TOKEN)
