@@ -9,25 +9,16 @@ const PREFIX = 'o!'
 // ISO2 to ISO3 conversion
 const getCountryISO3 = require("country-iso-2-to-3");
 // getCountryISO3("iso2 country code")
+/* Focus on data:
+    data.location
+    data.new_cases
+    data.total_deaths
+    data.total_cases
+    data.total_tests
+    *** data.last_updated_date ***
+*/
 
 
-//Covid19 Cases Function
-function covidstats(fromWhere) {
-    if (fromWhere.length === 2) {
-        getCountryISO3(fromWhere)
-        fromWhere = getCountryISO3(fromWhere)
-        covid19.getLatestStats(fromWhere).then((data) => {
-            const covidDataExport = { 'location':data['location'], 'cases':data['total_cases'], 'newCases':data['new_cases'] }
-            return covidDataExport
-        })
-    }
-    else{
-        covid19.getLatestStats(fromWhere).then((data) => {
-            const covidDataExport = { 'location':data['location'], 'cases':data['total_cases'], 'newCases':data['new_cases'] }
-            return covidDataExport
-        })
-    }
-}
 
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
@@ -41,24 +32,58 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
-            data = covidstats(args[1])
-            console.log(data)
-            if (args[1] === '') {
-                msg.channel.send('Invalid response');
+            if (!args[1]) return msg.channel.send('mom gae')
+            args[1] = args[1].toUpperCase()
+            //getting data
+            if (args[1].length === 2) {
+                const searchParam = getCountryISO3(args[1])
+                covid19.getLatestStats(searchParam).then((data) => {
+                    // newData = {
+                    //     location: data.location,
+                    //     new_cases: data.new_cases,
+                    //     total_deaths: data.total_deaths,
+                    //     total_cases: data.total_cases,
+                    //     total_tests: data.total_tests,
+                    //     last_updated_date: data.last_updated_date
+                    // }
+                    const embedCovid = new Discord.MessageEmbed()
+                        .setTitle(`COVID Information on ${data.location}`)
+                        .setFooter(`Last Updated Data ${data.last_updated_date}`)
+                        .addField('New Cases', `${data.new_cases}`)
+                        .addField('Total Cases', `${data.total_cases}`, true)
+                        .addField('Total Tests', `${data.total_tests}`)
+                        .addField('Total Deaths', `${data.total_deaths}`, true)
+                        .setColor('RANDOM');
+
+                    msg.channel.send(embedCovid)
+                })
+            } else {
+                covid19.getLatestStats(args[1]).then((data) => {
+                    // newData = {
+                    //     location: data.location,
+                    //     new_cases: data.new_cases,
+                    //     total_deaths: data.total_deaths,
+                    //     total_cases: data.total_cases,
+                    //     total_tests: data.total_tests,
+                    //     last_updated_date: data.last_updated_date
+                    // }
+                    const embedCovid = new Discord.MessageEmbed()
+                        .setTitle(`COVID Information on ${data.location}`)
+                        .setFooter(`Last Updated Data: ${data.last_updated_date}`)
+                        .addField('New Cases', `${data.new_cases}`)
+                        .addField('Total Cases', `${data.total_cases}`, true)
+                        .addField('Total Tests', `${data.total_tests}`)
+                        .addField('Total Deaths', `${data.total_deaths}`, true)
+                        .setColor('RANDOM');
+
+                    msg.channel.send(embedCovid)
+                })
             }
-            else {
-                  const embed = new Discord.MessageEmbed()
-                    .setTitle("Country ",data['location'])
-                    .addField("Total Cases ")
-                    .addField("New Cases ")
-                    msg.channel.send(embed)
-                }
-        }
-    })
+            break;
+    }
+})
 
-
-
-// //Telegram
+// Telegram
 // const { Telegraf } = require('telegraf')
 // const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
@@ -97,4 +122,4 @@ discordBot.on('message', (msg) => {
 
 // telegramBot.launch()
 
-discordBot.login(process.env.TOKEN)
+discordBot.login(process.env.DISCORD_BOT_TOKEN)
