@@ -18,7 +18,7 @@ discordBot.on('message', (msg) => {
             break;
     }
 })
-
+//wait lemme switch to something else
 discordBot.login(process.env.DISCORD_BOT_TOKEN)
 
 //Telegram
@@ -52,10 +52,10 @@ telegramBot.command('devinfo', async (ctx) => {
 })
 
 telegramBot.command('covid', (ctx) => {
-    covid19.getStats('SGP')
-        .then(stats => {
-            
-        })
+    covid19.getLatestStats('SGP')
+    .then(data => {
+        console.log(data)
+    })
 })
 
 telegramBot.launch()
