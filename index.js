@@ -6,7 +6,7 @@ const covid19 = require('owid-covid')
 const PREFIX = 'o!'
 
 
-// ISO2 to ISO3 conversion
+// ISO2 to ISO3 conversion (Example: US to USA)
 const getCountryISO3 = require("country-iso-2-to-3");
 // getCountryISO3("iso2 country code")
 /* Focus on data:
@@ -32,7 +32,7 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
-            if (!args[1]) return msg.channel.send('mom gae')
+            if (!args[1]) return msg.channel.send('Invalid response! Example: o!covid usa')
             args[1] = args[1].toUpperCase()
             //getting data
             if (args[1].length === 2) {
