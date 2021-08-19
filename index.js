@@ -6,6 +6,7 @@ const covid19 = require('owid-covid')
 const PREFIX = process.env.PREFIX
 
 
+
 // ISO2 to ISO3 conversion (Example: US to USA)
 const getCountryISO3 = require("country-iso-2-to-3");
 
@@ -68,7 +69,10 @@ discordBot.on('message', (msg) => {
                     msg.channel.send(embedCovid)
                 })
             }
-            break;
+        case 'settings':
+            if (!args[1]) return msg.channel.send('Invalid response! Example: o!settings <key> <value>')
+            args[1] = args[1].toLowerCase() // toLowerCase for settings keys
+
     }
 })
 
