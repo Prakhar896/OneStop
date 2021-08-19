@@ -115,8 +115,12 @@ telegramBot.command('devinfo', async (ctx) => {
 
 telegramBot.command('covid', (ctx) => {
     covid19.getLatestStats('SGP')
-    .then(data => {
-        console.log(data)
+    .then(async data => {
+        await ctx.reply(`New Cases: ${data.new_cases}`)
+        await ctx.reply(`Total Cases: ${data.total_cases}`)
+        await ctx.reply(`Total Deaths: ${data.total_deaths}`)
+        await ctx.reply(`Total Vaccinations: ${data.total_vaccinations}`)
+        // console.log(data)
     })
 })
 
