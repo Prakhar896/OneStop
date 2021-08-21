@@ -4,8 +4,6 @@ require('dotenv').config();
 const discordBot = new Discord.Client();
 const covid19 = require('owid-covid')
 const PREFIX = process.env.PREFIX
-
-
 // ISO2 to ISO3 conversion (Example: US to USA)
 const getCountryISO3 = require("country-iso-2-to-3");
 
@@ -37,44 +35,16 @@ discordBot.on('message', (msg) => {
             msg.reply('Hey there! I am OneStop!')
             break;
         case 'covid':
-            if (!args[1]) return msg.channel.send('Invalid response! Example: o!covid usa')
-            args[1] = args[1].toUpperCase()
-            //getting data
-            if (args[1].length === 2) {
-                const searchParam = getCountryISO3(args[1])
-                covid19.getLatestStats(searchParam).then((data) => {
-                    const embedCovid = new Discord.MessageEmbed()
-                        .setTitle(`COVID Information on ${data.location}`)
-                        .setFooter(`Last Updated Data ${data.last_updated_date}`)
-                        .addField('New Cases', `${data.new_cases}`)
-                        .addField('Total Cases', `${data.total_cases}`, true)
-                        .addField('Total Tests', `${data.total_tests}`)
-                        .addField('Total Deaths', `${data.total_deaths}`, true)
-                        .setColor('RANDOM');
-
-                    msg.channel.send(embedCovid)
-                })
-            } else {
-                covid19.getLatestStats(args[1]).then((data) => {
-                    const embedCovid = new Discord.MessageEmbed()
-                        .setTitle(`COVID Information on ${data.location}`)
-                        .setFooter(`Last Updated Data: ${data.last_updated_date}`)
-                        .addField('New Cases', `${data.new_cases}`)
-                        .addField('Total Cases', `${data.total_cases}`, true)
-                        .addField('Total Tests', `${data.total_tests}`)
-                        .addField('Total Deaths', `${data.total_deaths}`, true)
-                        .setColor('RANDOM');
-
-                    msg.channel.send(embedCovid)
-                })
-            }
+            dCovid.execute(msg, args, Discord, discordBot)
             break;
     }
 })
 
 //Telegram
 const { Telegraf } = require('telegraf');
-const covid = require('./commands/telegram/covid');
+const tCovid = require('./commands/telegram/tCovid');
+const dCovid = require('./commands/discord/dCovid');
+const tDevinfo = require('./commands/telegram/tDevinfo');
 const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
 const telegramBot = new Telegraf(oneStopBotToken)
@@ -84,27 +54,13 @@ telegramBot.start((ctx) => {
     ctx.reply('Hey there! I am OneStop!')
 })
 
-telegramBot.on('sticker', (ctx) => {
-    ctx.reply('👌🏻')
-})
-
 telegramBot.command('devinfo', async (ctx) => {
     if (ctx.from.id != importantIDs.telegram.ids[0] && ctx.from.id != importantIDs.telegram.ids[1]) return ctx.reply('Sorry, you are not a developer of this bot.')
-    try {
-        await ctx.reply(`id: ${telegramBot.botInfo.id}`)
-        await ctx.reply(`first_name: ${telegramBot.botInfo.first_name}`)
-        await ctx.reply(`can_read_all_group_messages: ${telegramBot.botInfo.can_read_all_group_messages}`)
-        await ctx.reply(`can_join_groups: ${telegramBot.botInfo.can_join_groups}`)
-        await ctx.reply(`supports_inline_queries: ${telegramBot.botInfo.supports_inline_queries}`)
-        await ctx.reply(`username: ${telegramBot.botInfo.username}`)
-        await ctx.reply(`is_bot: ${telegramBot.botInfo.is_bot}`)
-    } catch (err) {
-        console.log(err)
-    }
+    tDevinfo.execute(ctx, Telegraf, telegramBot)
 })
 
 telegramBot.command('covid', (ctx) => {
-    covid.execute(ctx, telegramBot)
+    tCovid.execute(ctx, telegramBot)
 })
 
 telegramBot.launch()
