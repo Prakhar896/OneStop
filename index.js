@@ -63,6 +63,10 @@ telegramBot.command('covid', (ctx) => {
     tCovid.execute(ctx, telegramBot)
 })
 
+telegramBot.command('weather', (ctx) => {
+    weather.execute(ctx, telegramBot)
+})
+
 telegramBot.launch()
 
 discordBot.login(process.env.DISCORD_BOT_TOKEN)
