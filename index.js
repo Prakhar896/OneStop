@@ -79,6 +79,7 @@ discordBot.on('message', (msg) => {
 //Telegram
 const { Telegraf } = require('telegraf');
 const covid = require('./commands/telegram/covid');
+const weather = require('./commands/telegram/weather');
 const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
 
 const telegramBot = new Telegraf(oneStopBotToken)
@@ -109,6 +110,10 @@ telegramBot.command('devinfo', async (ctx) => {
 
 telegramBot.command('covid', (ctx) => {
     covid.execute(ctx, telegramBot)
+})
+
+telegramBot.command('weather', (ctx) => {
+    weather.execute(ctx, telegramBot)
 })
 
 telegramBot.launch()
