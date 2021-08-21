@@ -1,4 +1,4 @@
-//Discord
+//Discord library imports
 const Discord = require('discord.js')
 require('dotenv').config();
 const discordBot = new Discord.Client();
@@ -7,6 +7,19 @@ const PREFIX = process.env.PREFIX
 // ISO2 to ISO3 conversion (Example: US to USA)
 const getCountryISO3 = require("country-iso-2-to-3");
 
+// Telegram library imports
+const { Telegraf } = require('telegraf');
+const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
+
+const telegramBot = new Telegraf(oneStopBotToken)
+
+// File imports
+const tCovid = require('./commands/telegram/tCovid');
+const dCovid = require('./commands/discord/dCovid');
+const tDevinfo = require('./commands/telegram/tDevinfo');
+const tWeather = require('./commands/telegram/tWeather');
+
+// Important datasets
 const importantIDs = {
     "telegram": {
         "ids": [1622650771, 1604074166]
@@ -23,6 +36,7 @@ const importantIDs = {
     }
 }
 
+//Discord
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
 })
@@ -41,13 +55,6 @@ discordBot.on('message', (msg) => {
 })
 
 //Telegram
-const { Telegraf } = require('telegraf');
-const tCovid = require('./commands/telegram/tCovid');
-const dCovid = require('./commands/discord/dCovid');
-const tDevinfo = require('./commands/telegram/tDevinfo');
-const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
-
-const telegramBot = new Telegraf(oneStopBotToken)
 
 telegramBot.start((ctx) => {
     console.log(ctx.from)
@@ -64,7 +71,7 @@ telegramBot.command('covid', (ctx) => {
 })
 
 telegramBot.command('weather', (ctx) => {
-    weather.execute(ctx, telegramBot)
+    tWeather.execute(ctx, telegramBot)
 })
 
 telegramBot.launch()
