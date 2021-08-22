@@ -1,6 +1,8 @@
 const { Telegraf } = require('telegraf')
 const covid19 = require('owid-covid')
 
+const getCountryISO3 = require("country-iso-2-to-3");
+
 module.exports = {
     name: 'Covid',
     description: 'Get all the information you need regarding COVID-19 in Singapore easily.',
@@ -9,6 +11,13 @@ module.exports = {
         var location = ""
         if (!args[1]) {
             location = "SGP"
+        }
+        else {
+            location = args[1]
+            location = location.toUpperCase()
+        }
+        if (location.length === 2) {
+            location = getCountryISO3(location)
         }
         covid19.getLatestStats(location)
             .then(async data => {
