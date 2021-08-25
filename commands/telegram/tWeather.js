@@ -8,9 +8,9 @@ module.exports = {
         args = ctx.message.text.split(' ')
         var location = "" 
         if (!args[1]) {
-            location = "Singapore"
+            location = "Singapore, SG"
         } else {
-            location = args[1] 
+            location = args.slice(1).join(' ')
         } 
 
         weather.find({search: location, degreeType: 'C'} , function(err, weatherResult) {
@@ -22,6 +22,7 @@ module.exports = {
                 
             var message = "Weather in " + location.name + ": "
             message += '\n'+current.skytext + ':  '+ current.temperature + '°C'
+
             ctx.reply(message)
         }
         )

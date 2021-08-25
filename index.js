@@ -2,20 +2,27 @@
 const Discord = require('discord.js')
 require('dotenv').config();
 const discordBot = new Discord.Client();
-const covid19 = require('owid-covid')
 const PREFIX = process.env.PREFIX
+
+//Covid API imports
+const covid19 = require('owid-covid')
+
 // ISO2 to ISO3 conversion (Example: US to USA)
 const getCountryISO3 = require("country-iso-2-to-3");
 
 // Telegram library imports
 const { Telegraf } = require('telegraf');
 const oneStopBotToken = process.env.TELEGRAM_BOT_TOKEN
-
 const telegramBot = new Telegraf(oneStopBotToken)
 
-// File imports
-const tCovid = require('./commands/telegram/tCovid');
+
+//Discord imports
+
 const dCovid = require('./commands/discord/dCovid');
+const dWeather = require('./commands/discord/dWeather');
+
+//Telegram imports
+const tCovid = require('./commands/telegram/tCovid');
 const tDevinfo = require('./commands/telegram/tDevinfo');
 const tWeather = require('./commands/telegram/tWeather');
 
@@ -51,6 +58,8 @@ discordBot.on('message', (msg) => {
         case 'covid':
             dCovid.execute(msg, args, Discord, discordBot)
             break;
+        case 'weather':
+            dWeather.execute(msg,args,Discord,discordBot)
     }
 })
 
