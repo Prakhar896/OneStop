@@ -12,7 +12,7 @@ module.exports = {
         await ctx.reply('Thank you for using OneStop! Here is all the information you need:')
         msg = `
         \`/help\` - Get help on using OneStop
-        \`/weather <city>\` - Get the weather for a city (leave blank for Singapore)
+        \`/weather <state>\` - Get the weather for a state of a Country (leave blank for Singapore)
         \`/covid <country>\` - Get the latest COVID-19 stats for a country (leave blank for Singapore)
         `
     }
