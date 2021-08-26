@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const weather = require('weather-js');
-
-
+const models = require('../../models');
 
 module.exports = {
     name: 'Weather',
@@ -27,7 +26,7 @@ function sendWeatherEmbed(msg, weatherResult) {
             var current = weatherResult[0].current
             var location = weatherResult[0].location
             embedWeather.setTitle(`Weather for ${location.name}`)
-            embedWeather.setDescription(`${weatherMoji(current.skytext)} ${current.skytext}: ${current.temperature}°C`)
+            embedWeather.setDescription(`${models.weatherMoji(current.skytext)} ${current.skytext}: ${current.temperature}°C`)
             embedWeather.setColor(0x00AE86)
             embedWeather.setFooter(`Last Updated: ${current.day}, ${current.observationtime}`)
             msg.channel.send(embedWeather)
@@ -37,30 +36,3 @@ function sendWeatherEmbed(msg, weatherResult) {
         msg.channel.send(`Error: Please enter the full name of country/city, for Example: "osaka, jp"`)
     }
 }
-
-
-function weatherMoji(skyName) {
-    var weatherIcon = ''
-    if (skyName.includes('Sunny') | skyName.includes('Clear')) { 
-            weatherIcon = '☀️'
-    }
-    else if (skyName.includes('Cloudy')) {
-        weatherIcon = '☁️'
-    }
-    else if (skyName.includes('Snow')) {
-        weatherIcon = '❄️'
-    }
-    else if (skyName.includes('Rain')) {
-        if (skyName.includes('Thunderstorm')) {
-            weatherIcon = '⛈️'
-        }
-        else {
-            weatherIcon = '🌧️'
-        }
-    }
-    else {
-        weatherIcon = '☁️'
-    }
-    return weatherIcon
-}
-
