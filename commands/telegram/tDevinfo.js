@@ -8,6 +8,7 @@ module.exports = {
     description: 'Sends information about the bot to developers only.',
     async execute(ctx, Telegraf, telegramBot) {
         // Add code here
+        await ctx.reply('---DEV ONLY---')
        try {
             await ctx.reply(`id: ${telegramBot.botInfo.id}`)
             await ctx.reply(`first_name: ${telegramBot.botInfo.first_name}`)

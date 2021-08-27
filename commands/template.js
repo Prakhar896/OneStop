@@ -2,6 +2,7 @@
 
 const Discord = require('discord.js');
 const { Telegraf } = require('telegraf')
+// const models = require('../../models'); // Use if needed
 
 // Import any extra libraries here
 
@@ -17,6 +18,7 @@ module.exports = {
 
 const Discord = require('discord.js');
 const { Telegraf } = require('telegraf')
+// const models = require('../../models'); // Use if needed
 
 // Import any extra libraries here
 

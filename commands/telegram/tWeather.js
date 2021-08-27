@@ -1,5 +1,6 @@
 const { Telegraf } = require('telegraf')
 const weather = require('weather-js');
+const models = require('../../models');
 
 module.exports = {
     name:'Weather',
@@ -13,24 +14,33 @@ module.exports = {
             location = args.slice(1).join(' ')
         } 
 
-        weather.find({search: location, degreeType: 'C'} , function(err, weatherResult) {
-            if(err) console.log(err);
+        weather.find({search: location, degreeType: 'C'} , async function(err, weatherResult) {
+            if (err) {
+                console.log('TELE; Error in getting weather data: ' + err)
+                await ctx.reply('Sorry, there was an issue in fetching the weather data.')
+                return
+            }
             var current = weatherResult[0].current
             var location = weatherResult[0].location
             var forecast = weatherResult[0].forecast
-            
+            var windDisplay = current.winddisplay
                 
-            var message = "Weather in " + location.name + ": "
-            message += '\n'+current.skytext + ':  '+ current.temperature + '°C'
+            var message = `Weather for ${location.name}`
+            message += `\n ${current.skytext}: ${current.temperature} °C`
+            message += `\n Feels like: ${current.feelslike} °C`
+            message += `\n Wind: ${current.winddisplay}`
+            message += `\n Humidity: ${current.humidity}%`
 
-            ctx.reply(message)
+            await ctx.reply(models.weatherMoji(current.skytext))
+            await ctx.reply(message)
+
+            var forecastMessage = `\n\nForecast:\n`
+            for (var i = 0; i < 3; i++) {
+                forecastMessage += `\n${forecast[i].day} - ${models.weatherMoji(forecast[i].skytextday)}`
+                forecastMessage += `\n${forecast[i].low}°C - ${forecast[i].high}°C`
+            }
+            await ctx.reply(forecastMessage)
         }
         )
     }
 }
-
-/*/bot.on('location', (msg) => {
-    console.log(msg.location.latitude);
-    console.log(msg.location.longitude);
-  });
-/*/
