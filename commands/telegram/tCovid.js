@@ -2,6 +2,7 @@ const { Telegraf } = require('telegraf')
 const covid19 = require('owid-covid')
 const { getCode, getName } = require('country-list');
 const getCountryISO3 = require("country-iso-2-to-3");
+const models = require('../../models');
 
 module.exports = {
     name: 'Covid',
@@ -12,20 +13,20 @@ module.exports = {
         if (!args[1]) {
             location = "SGP"
         } else {
-            location = args[1]
+            location = args.slice(1).join(' ')
             // location = location.toUpperCase()
         }
         if (location.length == 2) {
             location = location.toUpperCase()
             location = getCountryISO3(location)
         } else {
-            // await ctx.reply('Sorry, only two letter country codes are accepted. Visit here for accepted country codes: https://github.com/sujalgoel/owid-covid/blob/master/json/countries.json#L455')
-            // return
+            // Get shortcode of country
             try {
                 location = getCode(location)
             } catch (err) {
                 console.log('TELE; Error in getting country shortcode: ' + err)
                 await ctx.reply('Sorry, there was an error in getting the shortcode of that country.')
+                await ctx.reply('Visit here for accepted country codes: https://github.com/sujalgoel/owid-covid/blob/master/json/countries.json#L455')
                 return
             }
             if (!location) {
