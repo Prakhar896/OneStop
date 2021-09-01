@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-
+const { getCode, getName } = require('country-list');
 // Import any extra libraries here
 const getCountryISO3 = require("country-iso-2-to-3");
 const covid19 = require('owid-covid')
@@ -20,16 +20,26 @@ module.exports = {
         //getting data
         if (location.length === 2) {
             location = getCountryISO3(location)
+        } else if (location.length > 3) {
+          location = getCode(location)
+          location = getCountryISO3(location)
         }
-            covid19.getLatestStats(location).then((data) => {
+
+            try {
+              covid19.getLatestStats(location).then((data) => {
                 sendCovidEmbed(msg, data)
             })
         }
+            catch (err){
+              msg.channel.send(err)
+              console.log(err)
+        }
     }
+}
 function sendCovidEmbed(msg, data) {
     try {
         const embedCovid = new Discord.MessageEmbed()
-            .setTitle(`COVID Information on ${data.location}`)
+            .setTitle(`🦠 COVID Information on ${data.location} 🌡️`)
             .setFooter(`Last Updated Data: ${data.last_updated_date}`)
             .addField('New Cases', `${data.new_cases}`)
             .addField('Total Cases', `${data.total_cases}`, true)
@@ -40,5 +50,6 @@ function sendCovidEmbed(msg, data) {
         msg.channel.send(embedCovid)
     } catch (err) {
         console.log('DISC, Error in sending Covid Embed: ' + err)
+        msg.channel.send(err)
     }
 }
