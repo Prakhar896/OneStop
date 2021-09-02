@@ -2,7 +2,7 @@
 const Discord = require('discord.js')
 require('dotenv').config();
 const discordBot = new Discord.Client();
-const PREFIX = process.env.PREFIX
+const PREFIX = 'o!'
 
 //Covid API imports
 const covid19 = require('owid-covid')
@@ -46,6 +46,7 @@ const importantIDs = {
 //Discord
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
+    console.log(`Logged in as ${discordBot.user.tag}!`)
 })
 
 discordBot.on('message', (msg) => {
