@@ -4,7 +4,7 @@ const { getCode, getName } = require('country-list');
 const getCountryISO3 = require("country-iso-2-to-3");
 const covid19 = require('owid-covid')
 const axios = require('axios');
-const sgp_url = process.env.SGP_URL
+const sgp_url = process.env.MOH_URL
 
 module.exports = {
     name: 'Covid',

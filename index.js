@@ -20,7 +20,7 @@ const telegramBot = new Telegraf(oneStopBotToken)
 
 const dCovid = require('./commands/discord/dCovid');
 const dWeather = require('./commands/discord/dWeather');
-
+const dNews = require('./commands/discord/dNews');
 //Telegram imports
 const tCovid = require('./commands/telegram/tCovid');
 const tDevinfo = require('./commands/telegram/tDevinfo');
@@ -61,6 +61,10 @@ discordBot.on('message', (msg) => {
             break;
         case 'weather':
             dWeather.execute(msg,args,Discord,discordBot)
+            break;
+        case 'news':
+            dNews.execute(msg,args,Discord,discordBot)
+            break;
     }
 })
 
