@@ -13,6 +13,7 @@ module.exports = {
     async execute(ctx, Telegraf, telegramBot) {
         // Add code here
         args = ctx.message.text.split(' ');
+        
         var category = ''
         if (!args[1]) {
             category = 'technology'
@@ -21,17 +22,22 @@ module.exports = {
         }
 
         var query = ''
-        if (!args[1]) {
-            query = 'general';
+        if (!(args.slice(2).join(' '))) {
+            query = ''
         } else {
-            query = args[1];
+            query = args.slice(2).join(' ')
         }
-        newsapi.v2.topHeadlines({
+
+        var params = {
             country: 'sg',
-            q: query,
-            language: 'en',
-            category: 'business'
-          }).then(response => {
+            category: category,
+            language: 'en'
+        }
+        if (query != '') {
+            params.q = query
+        }
+        
+        newsapi.v2.topHeadlines(params).then(response => {
             console.log(response.articles[0]);
           });
     }
