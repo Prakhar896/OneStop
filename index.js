@@ -25,6 +25,7 @@ const dNews = require('./commands/discord/dNews');
 const tCovid = require('./commands/telegram/tCovid');
 const tDevinfo = require('./commands/telegram/tDevinfo');
 const tWeather = require('./commands/telegram/tWeather');
+const tNews = require('./commands/telegram/tNews');
 
 // Important datasets
 const importantIDs = {
@@ -86,6 +87,10 @@ telegramBot.command('covid', (ctx) => {
 
 telegramBot.command('weather', (ctx) => {
     tWeather.execute(ctx, telegramBot)
+})
+
+telegramBot.command('news', (ctx) => {
+    tNews.execute(ctx, telegramBot)
 })
 
 telegramBot.launch()
