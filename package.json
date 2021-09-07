@@ -15,6 +15,7 @@
     "discord.js": "^12.5.3",
     "dotenv": "^10.0.0",
     "fs": "^0.0.1-security",
+    "google-news-scraper": "^1.0.7",
     "owid-covid": "^1.0.5",
     "telegraf": "^4.3.0",
     "weather-js": "^2.0.0"
