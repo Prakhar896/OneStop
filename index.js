@@ -2,7 +2,7 @@
 const Discord = require('discord.js')
 require('dotenv').config();
 const discordBot = new Discord.Client();
-const PREFIX = process.env.PREFIX
+const PREFIX = 'o!'
 
 //Covid API imports
 const covid19 = require('owid-covid')
@@ -20,7 +20,7 @@ const telegramBot = new Telegraf(oneStopBotToken)
 
 const dCovid = require('./commands/discord/dCovid');
 const dWeather = require('./commands/discord/dWeather');
-
+const dNews = require('./commands/discord/dNews');
 //Telegram imports
 const tCovid = require('./commands/telegram/tCovid');
 const tDevinfo = require('./commands/telegram/tDevinfo');
@@ -47,6 +47,7 @@ const importantIDs = {
 //Discord
 discordBot.on('ready', () => {
     console.log('OneStop is ready to serve!')
+    console.log(`Logged in as ${discordBot.user.tag}!`)
 })
 
 discordBot.on('message', (msg) => {
@@ -61,6 +62,10 @@ discordBot.on('message', (msg) => {
             break;
         case 'weather':
             dWeather.execute(msg,args,Discord,discordBot)
+            break;
+        case 'news':
+            dNews.execute(msg,args,Discord,discordBot)
+            break;
     }
 })
 
