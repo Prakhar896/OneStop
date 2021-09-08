@@ -4,7 +4,8 @@ const models = require('../../models');
 
 module.exports = {
     name:'Weather',
-    description:'Checks the weather for you!', 
+    description:'Checks the weather for you!',
+    sampleCommandUsage: '/weather <state> (leave blank for Singapore), for e.g: /weather Minnesota',
     execute(ctx, telegramBot) { 
         args = ctx.message.text.split(' ')
         var location = "" 

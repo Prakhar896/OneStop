@@ -26,6 +26,7 @@ const tCovid = require('./commands/telegram/tCovid');
 const tDevinfo = require('./commands/telegram/tDevinfo');
 const tWeather = require('./commands/telegram/tWeather');
 const tNews = require('./commands/telegram/tNews');
+const tHelp = require('./commands/telegram/tHelp');
 
 // Important datasets
 const importantIDs = {
@@ -79,6 +80,10 @@ telegramBot.start((ctx) => {
 telegramBot.command('devinfo', async (ctx) => {
     if (ctx.from.id != importantIDs.telegram.ids[0] && ctx.from.id != importantIDs.telegram.ids[1]) return ctx.reply('Sorry, you are not a developer of this bot.')
     tDevinfo.execute(ctx, Telegraf, telegramBot)
+})
+
+telegramBot.command('help', async (ctx) => {
+    tHelp.execute(ctx, Telegraf, telegramBot)
 })
 
 telegramBot.command('covid', (ctx) => {

@@ -25,6 +25,7 @@ const { Telegraf } = require('telegraf')
 module.exports = {
     name: '',
     description: '',
+    sampleCommandUsage: '',
     async execute(ctx, Telegraf, telegramBot) {
         // Add code here
     }

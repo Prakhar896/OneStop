@@ -10,10 +10,11 @@ const backendBotToken = process.env.BACKEND_BOT_TOKEN;
 module.exports = {
     name: 'Covid',
     description: 'Get all the information you need regarding COVID-19 in Singapore easily.',
+    sampleCommandUsage: '/covid (gives latest COVID-19 statistics for Singapore)',
     async execute(ctx, telegramBot) {
         // args = ctx.message.text.split(' ')
         // var location = ""
-        // if (!args[1]) {
+        // if (!args[1]) {thi
         //     location = "SGP"
         // } else {
         //     location = args.slice(1).join(' ')

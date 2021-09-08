@@ -14,7 +14,7 @@ module.exports = {
         var location = ""
         if (!args[1]) {
             location = "SGP"
-        } 
+        }
         else {
             location = args[1]
             location = location.toUpperCase()
@@ -23,24 +23,24 @@ module.exports = {
         if (location.length === 2) {
             location = getCountryISO3(location)
         } else if (location.length > 3) {
-          location = getCode(location)
-          location = getCountryISO3(location)
+            location = getCode(location)
+            location = getCountryISO3(location)
         }
-        
 
-            try {
-                //if location is sgp then use function covidEmbedSGP
-                if (location === "SGP") {
-                    covidEmbedSGP(msg, Discord, discordBot)
-                } else {
-                    covid19.getLatestStats(location).then((data) => {
+
+        try {
+            //if location is sgp then use function covidEmbedSGP
+            if (location === "SGP") {
+                covidEmbedSGP(msg, Discord, discordBot)
+            } else {
+                covid19.getLatestStats(location).then((data) => {
                     sendCovidEmbed(msg, data)
-              })
+                })
             }
         }
-            catch (err){
-              msg.channel.send(err)
-              console.log(err)
+        catch (err) {
+            msg.channel.send(err)
+            console.log(err)
         }
     }
 }
@@ -69,25 +69,25 @@ function covidEmbedSGP(msg) {
         const embedCovid = new Discord.MessageEmbed()
             .setTitle(`Fetching data...`)
             .setColor('RANDOM')
-        msg.channel.send(embedCovid).then(msg=>{
+        msg.channel.send(embedCovid).then(msg => {
             axios({
                 method: 'get',
                 url: sgp_url,
                 responseType: 'json'
-                })
+            })
                 .then(function (response) {
                     const data = response.data
-        const embedCovid = new Discord.MessageEmbed()
-            .setTitle(`COVID Information on Singapore 🇸🇬`)
-            .setDescription(`Taken from [@sporeMOH](https://twitter.com/sporeMOH)`)
-            .setFooter(`Preliminary: ${data.preliminary} (Confirmed cases are typically released at 11pm)`)
-            .addField('Locally Transmitted Cases', `${data.local_cases}`)
-            .addField('Imported Cases', `${data.imported_cases}`, true)
-            .addField('% of population fully vaccinated', `${data.vax_stats}% 🎉`)
-            .setColor('RANDOM');
-            msg.edit(embedCovid)
+                    const embedCovid = new Discord.MessageEmbed()
+                        .setTitle(`COVID Information on Singapore 🇸🇬`)
+                        .setDescription(`Taken from [@sporeMOH](https://twitter.com/sporeMOH)`)
+                        .setFooter(`Preliminary: ${data.preliminary} (Confirmed cases are typically released at 11pm)`)
+                        .addField('Locally Transmitted Cases', `${data.local_cases}`)
+                        .addField('Imported Cases', `${data.imported_cases}`, true)
+                        .addField('% of population fully vaccinated', `${data.vax_stats}% 🎉`)
+                        .setColor('RANDOM');
+                    msg.edit(embedCovid)
+                })
         })
-    })
     } catch (err) {
         msg.edit("Error in fetching data" + err)
     }
