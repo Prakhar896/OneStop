@@ -16,7 +16,7 @@ module.exports = {
         try {
             for (const file of commandFiles) {
                 const command = require(`./${file}`)
-                if (command.devOnly == true) continue
+                if (command.devOnly == true || command.name == 'Help') continue
                 var msg = command.name + '\n'
                 msg += 'Description: ' + command.description + '\n'
                 msg += 'Sample Command Usage: ' + command.sampleCommandUsage
