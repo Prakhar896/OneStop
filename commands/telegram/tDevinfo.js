@@ -6,6 +6,8 @@ const { Telegraf } = require('telegraf')
 module.exports = {
     name: 'devinfo',
     description: 'Sends information about the bot to developers only.',
+    sampleCommandUsage: '/devinfo',
+    devOnly: true,
     async execute(ctx, Telegraf, telegramBot) {
         // Add code here
         await ctx.reply('---DEV ONLY---')
