@@ -28,6 +28,7 @@ const tWeather = require('./commands/telegram/tWeather');
 const tNews = require('./commands/telegram/tNews');
 const tHelp = require('./commands/telegram/tHelp');
 const tRNG = require('./commands/telegram/tRNG');
+const tBus = require('./commands/telegram/tBus');
 
 // Important datasets
 const importantIDs = {
@@ -101,6 +102,10 @@ telegramBot.command('news', (ctx) => {
 
 telegramBot.command('rng', (ctx) => {
     tRNG.execute(ctx, Telegraf, telegramBot)
+})
+
+telegramBot.command('bus', (ctx) => {
+    tBus.execute(ctx, Telegraf, telegramBot)
 })
 
 telegramBot.launch()
