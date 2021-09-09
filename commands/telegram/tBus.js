@@ -23,7 +23,7 @@ module.exports = {
                 'accept': 'application/json'
             },
             method: 'get'
-        }).then(response => {
+        }).then(async response => {
             if (response.status === 200) {
                 // var busArrivalData = response.data.Services;
                 // var busArrivalDataLength = busArrivalData.length;
@@ -61,9 +61,23 @@ module.exports = {
                     } else if (nextBus.load == 'LSD') {
                         busLoad = 'Limited Standing'
                     }
-                    
-                    msg += `Bus: ${service.ServiceNo}\n`
-                    msg += `Bus Operator: ${service.Operator}`
+
+                    // Get time in minutes for bus arrival rounded down to the whole number
+                    var now = new Date();
+                    var arrivalTime = new Date(nextBus.EstimatedArrival)
+                    var timeDiff = arrivalTime.getMinutes() - now.getMinutes()
+                    if (timeDiff <= 0) {
+                        timeDiff = 'ARRIVING'
+                    } else {
+                        timeDiff += 'Minutes'
+                    }
+
+                    var msg = `Bus: ${service.ServiceNo}\n`
+                    msg += `ARRIVAL TIME: ${timeDiff}\n`
+                    msg += `Bus Load: ${busLoad}\n`
+                    msg += `Bus Operator: ${serviceOperatorName}\n`
+
+                    await ctx.reply(msg)
                 }
             }
         }).catch(error => {console.log(error)})
