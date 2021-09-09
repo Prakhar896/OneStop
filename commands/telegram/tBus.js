@@ -56,9 +56,9 @@ module.exports = {
                     var busLoad = ''
                     if (nextBus.Load == 'SEA') {
                         busLoad = 'Seats Available'
-                    } else if (nextBus.load == 'SDA') {
+                    } else if (nextBus.Load == 'SDA') {
                         busLoad = 'Standing Available'
-                    } else if (nextBus.load == 'LSD') {
+                    } else if (nextBus.Load == 'LSD') {
                         busLoad = 'Limited Standing'
                     }
 
