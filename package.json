@@ -9,7 +9,7 @@
   "author": "Prakhar Trivedi and Yisian Sim",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "country-iso-2-to-3": "^1.1.0",
     "country-list": "^2.2.0",
     "discord.js": "^12.5.3",

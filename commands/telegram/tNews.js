@@ -8,7 +8,7 @@ const GoogleNewsScraper = require('google-news-scraper');
 module.exports = {
     name: 'News',
     description: 'Fetches and displays the latest news.',
-    sampleCommandUsage: '/news relevant(optional, gives articles from only relevant sources) <search query>, for e.g: /news relevant technology in singapore',
+    sampleCommandUsage: '/news relevant(optional, gives articles from only relevant sources) <search query>,\nfor e.g: /news relevant technology in singapore',
     async execute(ctx, Telegraf, telegramBot) {
         // Add code here
         // Example message format: /news relevant(<-- optional filtering tag) <search query>

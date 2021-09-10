@@ -27,5 +27,8 @@ module.exports = {
     },
     print(data) {
         console.log(data)
+    },
+    generateRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
     }
 }

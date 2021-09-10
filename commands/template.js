@@ -9,6 +9,7 @@ const { Telegraf } = require('telegraf')
 module.exports = {
     name: '',
     description: '',
+    sampleCommandUsage: '',
     async execute(msg, args, Discord, bot) {
         // Add code here
     }
