@@ -79,7 +79,7 @@ function covidEmbedSGP(msg) {
                     const data = response.data
                     const embedCovid = new Discord.MessageEmbed()
                         .setTitle(`COVID Information on Singapore 🇸🇬`)
-                        .setDescription(`Taken from [@sporeMOH](https://twitter.com/sporeMOH)`)
+                        .setDescription(`Taken from [@mothershipSG](https://twitter.com/mothershipSG)`)
                         .setFooter(`Preliminary: ${data.preliminary} (Confirmed cases are typically released at 11pm)`)
                         .addField('Locally Transmitted Cases', `${data.local_cases}`)
                         .addField('Imported Cases', `${data.imported_cases}`, true)
