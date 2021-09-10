@@ -69,7 +69,7 @@ module.exports = {
                     if (timeDiff <= 0) {
                         timeDiff = 'ARRIVING'
                     } else {
-                        timeDiff += 'Minutes'
+                        timeDiff += ' Minutes'
                     }
 
                     var msg = `Bus: ${service.ServiceNo}\n`
