@@ -84,6 +84,7 @@ function covidEmbedSGP(msg) {
                         //.setFooter(`Preliminary: ${data.preliminary} (Confirmed cases are typically released at 11pm)`)
                         .addField('Locally Transmitted Cases', `${data.local_cases}`)
                         .addField('Imported Cases', `${data.imported_cases}`, true)
+                        .addField('Dormitory Cases', `${data.dormitory}`, true)
                         //.addField('% of population fully vaccinated', `${data.vax_stats}% 🎉`)
                         .addField('Total Cases: ', `${data.total_cases}`, true)
                         .setColor('RANDOM');
