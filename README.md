@@ -13,3 +13,6 @@ OneStop is a project made by Prakhar Trivedi (@Prakhar896) and Yisian Sim (@toas
 ![image](https://user-images.githubusercontent.com/64526036/156553907-7ed31a87-3c21-42b4-aa30-5cc9bb0f340e.png)  
 ![image](https://user-images.githubusercontent.com/64526036/156553973-96695876-1df1-4966-ba43-884c8bffee8a.png)
 
+### Personal repos used for OneStop
+[covidscraper-sg](https://github.com/toasterclock/covidscraper-sg)  
+[googlenews-flask](https://github.com/toasterclock/googlenews-flask)
